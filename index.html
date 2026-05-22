@@ -193,10 +193,7 @@
     <h1 class="cover-title">Una nueva visión<br>para el <em>Dashboard Tarjeta</em></h1>
     <p class="cover-sub">Cómo aprovechar las cuatro fuentes de datos disponibles para darle a cada Country Manager visibilidad real sobre su operación: gasto, comportamiento, alertas y tendencias.</p>
     <div class="cover-pills">
-      <span class="cover-pill">🇨🇱 Chile</span>
-      <span class="cover-pill">🇨🇴 Colombia</span>
-      <span class="cover-pill">🇵🇪 Perú</span>
-      <span class="cover-pill">🇺🇸 Estados Unidos</span>
+      <span class="cover-pill">CL · CO · PE · AR</span>
       <span class="cover-pill">Audiencia: Country Manager</span>
       <span class="cover-pill">4 fuentes de datos</span>
     </div>
@@ -292,8 +289,8 @@
     <div class="fuentes-grid">
       <div class="fuente-card">
         <div class="fuente-icon" style="background:#E8F1FB">💳</div>
-        <h4>Información de tarjetas</h4>
-        <span class="fuente-tag">card_info</span>
+        <h4>Maestro Tarjetas</h4>
+        <span class="fuente-tag">maestro_tarjetas</span>
         <ul class="fuente-list">
           <li>Estado actual (activa, bloqueada, deshabilitada)</li>
           <li>Titular y país asignado</li>
@@ -304,7 +301,7 @@
       </div>
       <div class="fuente-card">
         <div class="fuente-icon" style="background:#FDF1EB">🔔</div>
-        <h4>Eventos de tarjeta</h4>
+        <h4>Card Events</h4>
         <span class="fuente-tag">card_events</span>
         <ul class="fuente-list">
           <li>Bloqueos y desbloqueos con fecha</li>
@@ -316,8 +313,8 @@
       </div>
       <div class="fuente-card">
         <div class="fuente-icon" style="background:#E3F4EE">🧾</div>
-        <h4>Transacciones</h4>
-        <span class="fuente-tag">transactions</span>
+        <h4>Mambu Transaction</h4>
+        <span class="fuente-tag">mambu_transaction</span>
         <ul class="fuente-list">
           <li>Monto y fecha de cada transacción</li>
           <li>Comercio y categoría</li>
@@ -328,8 +325,8 @@
       </div>
       <div class="fuente-card">
         <div class="fuente-icon" style="background:#FDF3E2">📩</div>
-        <h4>Notificaciones</h4>
-        <span class="fuente-tag">notifications</span>
+        <h4>Experiencia Tarjetas</h4>
+        <span class="fuente-tag">experiencia_tarjetas</span>
         <ul class="fuente-list">
           <li>Transacciones rechazadas</li>
           <li>Motivo de cada rechazo</li>
@@ -342,7 +339,7 @@
 
     <div class="callout amber">
       <span class="callout-icon">📌</span>
-      <p><strong>Nota de implementación:</strong> Dado que las fuentes son independientes, cada panel del dashboard se construye sobre una sola fuente. Esto simplifica el modelo de datos en Tableau y hace que los filtros de país y período apliquen de forma consistente en cada vista por separado.</p>
+      <p><strong>Nota de implementación:</strong> Las cuatro fuentes son independientes entre sí — <strong>Maestro Tarjetas</strong>, <strong>Card Events</strong>, <strong>Mambu Transaction</strong> y <strong>Experiencia Tarjetas</strong>. Cada panel del dashboard se construye sobre una sola fuente, lo que simplifica el modelo de datos en Tableau y hace que los filtros de país y período apliquen de forma consistente en cada vista.</p>
     </div>
   </div>
 </section>
@@ -351,10 +348,10 @@
 <section id="vistas">
   <div class="page">
     <p class="section-tag">03 · Vistas propuestas</p>
-    <h2>Tres vistas para tres momentos de uso</h2>
-    <p class="lead">El dashboard se organiza en vistas complementarias. Un Country Manager puede empezar por el resumen general, profundizar en alertas operativas y, si necesita investigar un caso, ir directo al tarjetahabiente.</p>
+    <h2>Dos vistas para dos momentos de uso</h2>
+    <p class="lead">El dashboard se organiza en dos vistas complementarias. Un Country Manager puede empezar por el resumen general y profundizar en alertas operativas — incorporando por primera vez datos de Card Events y Experiencia Tarjetas que hoy no están presentes.</p>
 
-    <div class="vistas-grid">
+    <div class="vistas-grid" style="grid-template-columns:1fr 1fr">
       <div class="vista-card">
         <div class="vista-header">
           <p class="vista-num">Vista 1</p>
@@ -364,23 +361,23 @@
         <div class="vista-body">
           <div class="vista-item">
             <span class="vista-item-icon">📊</span>
-            <div><strong>6 KPIs con semáforo<span class="src">card_info</span></strong>Total tarjetas, activas, bloqueadas, gasto 30d, tasa rechazo, tasa reverso.</div>
+            <div><strong>6 KPIs con semáforo<span class="src">Maestro Tarjetas</span></strong>Total tarjetas, activas, bloqueadas, gasto 30d, tasa rechazo, tasa reverso.</div>
           </div>
           <div class="vista-item">
             <span class="vista-item-icon">🌎</span>
-            <div><strong>Tarjetas por país<span class="src">card_info</span></strong>Barras horizontales con banderas. Filtrable por tipo (física/virtual).</div>
+            <div><strong>Tarjetas por país<span class="src">Maestro Tarjetas</span></strong>Barras horizontales con banderas. Filtrable por tipo (física/virtual).</div>
           </div>
           <div class="vista-item">
             <span class="vista-item-icon">🍩</span>
-            <div><strong>Estado de tarjetas<span class="src">card_info</span></strong>Donut: activas / bloqueadas / deshabilitadas con cifra central.</div>
+            <div><strong>Estado de tarjetas<span class="src">Maestro Tarjetas</span></strong>Donut: activas / bloqueadas / deshabilitadas con cifra central.</div>
           </div>
           <div class="vista-item">
             <span class="vista-item-icon">📈</span>
-            <div><strong>Volumen diario (30d)<span class="src">transactions</span></strong>Línea de aprobadas + línea punteada de rechazadas.</div>
+            <div><strong>Volumen diario (30d)<span class="src">Mambu Transaction</span></strong>Línea de aprobadas + línea punteada de rechazadas.</div>
           </div>
           <div class="vista-item">
             <span class="vista-item-icon">🏪</span>
-            <div><strong>Top comercios por gasto<span class="src">transactions</span></strong>Barras horizontales ordenadas por monto.</div>
+            <div><strong>Top comercios por gasto<span class="src">Mambu Transaction</span></strong>Barras horizontales ordenadas por monto.</div>
           </div>
         </div>
       </div>
@@ -394,53 +391,23 @@
         <div class="vista-body">
           <div class="vista-item">
             <span class="vista-item-icon">⚠️</span>
-            <div><strong>Razones de rechazo<span class="src">notifications</span></strong>Barras horizontales con conteo por motivo en español.</div>
+            <div><strong>Razones de rechazo<span class="src">Experiencia Tarjetas</span></strong>Barras horizontales con conteo por motivo en español.</div>
           </div>
           <div class="vista-item">
             <span class="vista-item-icon">↩️</span>
-            <div><strong>Reversos por tipo<span class="src">transactions</span></strong>Duplicado, disputa, fraude, error de comercio, otro.</div>
+            <div><strong>Reversos por tipo<span class="src">Mambu Transaction</span></strong>Duplicado, disputa, fraude, error de comercio, otro.</div>
           </div>
           <div class="vista-item">
             <span class="vista-item-icon">🔔</span>
-            <div><strong>Eventos recientes<span class="src">card_events</span></strong>Feed cronológico: bloqueos, desbloqueos, deshabilitaciones.</div>
+            <div><strong>Eventos recientes<span class="src">Card Events</span></strong>Feed cronológico: bloqueos, desbloqueos, deshabilitaciones.</div>
           </div>
           <div class="vista-item">
             <span class="vista-item-icon">📦</span>
-            <div><strong>Estado de entrega física<span class="src">card_info</span></strong>Entregada, en impresión, fallida — con etiquetas de negocio.</div>
+            <div><strong>Estado de entrega física<span class="src">Maestro Tarjetas</span></strong>Entregada, en impresión, fallida — con etiquetas de negocio.</div>
           </div>
           <div class="vista-item">
             <span class="vista-item-icon">📅</span>
-            <div><strong>Tarjetas activas por mes (3m)<span class="src">card_info</span></strong>Barras agrupadas por país y tipo de tarjeta.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="vista-card">
-        <div class="vista-header">
-          <p class="vista-num">Vista 3</p>
-          <p class="vista-title">Detalle por tarjetahabiente</p>
-          <p class="vista-audience">Country Manager · investigación de casos</p>
-        </div>
-        <div class="vista-body">
-          <div class="vista-item">
-            <span class="vista-item-icon">👤</span>
-            <div><strong>Perfil del tarjetahabiente<span class="src">card_info</span></strong>Nombre, cargo, país, número, estado y tipo de tarjeta.</div>
-          </div>
-          <div class="vista-item">
-            <span class="vista-item-icon">💰</span>
-            <div><strong>KPIs individuales<span class="src">transactions</span></strong>Gasto este mes, mes anterior, YTD y barra de utilización del límite.</div>
-          </div>
-          <div class="vista-item">
-            <span class="vista-item-icon">🧾</span>
-            <div><strong>Historial de transacciones<span class="src">transactions</span></strong>Tabla con fecha, comercio, categoría, estado y monto.</div>
-          </div>
-          <div class="vista-item">
-            <span class="vista-item-icon">📋</span>
-            <div><strong>Línea de tiempo de eventos<span class="src">card_events</span></strong>Bloqueos, cambios de límite y desbloqueos en orden cronológico.</div>
-          </div>
-          <div class="vista-item">
-            <span class="vista-item-icon">📩</span>
-            <div><strong>Notificaciones individuales<span class="src">notifications</span></strong>Rechazos y alertas asociadas a esa tarjeta.</div>
+            <div><strong>Tarjetas activas por mes (3m)<span class="src">Maestro Tarjetas</span></strong>Barras agrupadas por país y tipo de tarjeta.</div>
           </div>
         </div>
       </div>
@@ -468,70 +435,70 @@
       <tbody>
         <tr>
           <td>Tarjetas activas / total</td>
-          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">card_info</span></td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">Maestro Tarjetas</span></td>
           <td>¿Qué porcentaje de mi portafolio está operativo hoy?</td>
           <td><span class="semaforo"><span class="dot-g"></span>&gt;75%</span></td>
           <td><span class="badge badge-p">Primario</span></td>
         </tr>
         <tr>
           <td>Gasto total (30 días)</td>
-          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">transactions</span></td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">Mambu Transaction</span></td>
           <td>¿Cuánto están moviendo mis tarjetas este mes?</td>
           <td>vs. mes anterior</td>
           <td><span class="badge badge-p">Primario</span></td>
         </tr>
         <tr>
           <td>Tasa de rechazo</td>
-          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">notifications</span></td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">Experiencia Tarjetas</span></td>
           <td>¿Hay transacciones fallando a un ritmo que debo atender?</td>
           <td><span class="semaforo"><span class="dot-g"></span>&lt;3% <span class="dot-a"></span>3–6% <span class="dot-r"></span>&gt;6%</span></td>
           <td><span class="badge badge-p">Primario</span></td>
         </tr>
         <tr>
           <td>Tarjetas bloqueadas</td>
-          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">card_events</span></td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">Card Events</span></td>
           <td>¿Cuántas tarjetas están inoperativas y por qué?</td>
           <td><span class="semaforo"><span class="dot-a"></span>variación semanal</span></td>
           <td><span class="badge badge-p">Primario</span></td>
         </tr>
         <tr>
           <td>Tasa de reverso</td>
-          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">transactions</span></td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">Mambu Transaction</span></td>
           <td>¿Hay problemas de fraude o errores de comercio relevantes?</td>
           <td><span class="semaforo"><span class="dot-g"></span>&lt;2% <span class="dot-a"></span>2–4% <span class="dot-r"></span>&gt;4%</span></td>
           <td><span class="badge badge-p">Primario</span></td>
         </tr>
         <tr>
           <td>Clientes activos (90 días)</td>
-          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">transactions</span></td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">Mambu Transaction</span></td>
           <td>¿Cuántos tarjetahabientes han usado su tarjeta en los últimos 3 meses?</td>
           <td>vs. período anterior</td>
           <td><span class="badge badge-p">Primario</span></td>
         </tr>
         <tr>
           <td>Top comercios por gasto</td>
-          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">transactions</span></td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">Mambu Transaction</span></td>
           <td>¿Dónde se concentra el gasto de mi país?</td>
           <td>—</td>
           <td><span class="badge badge-s">Secundario</span></td>
         </tr>
         <tr>
           <td>Estado de entrega física</td>
-          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">card_info</span></td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">Maestro Tarjetas</span></td>
           <td>¿Cuántas tarjetas están pendientes de llegar al cliente?</td>
           <td>—</td>
           <td><span class="badge badge-s">Secundario</span></td>
         </tr>
         <tr>
           <td>Razones de rechazo</td>
-          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">notifications</span></td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">Experiencia Tarjetas</span></td>
           <td>¿Por qué se están rechazando las transacciones?</td>
           <td>—</td>
           <td><span class="badge badge-s">Secundario</span></td>
         </tr>
         <tr>
           <td>Física vs. virtual</td>
-          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">card_info</span></td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">Maestro Tarjetas</span></td>
           <td>¿Cómo está distribuido mi portafolio por tipo de tarjeta?</td>
           <td>—</td>
           <td><span class="badge badge-s">Secundario</span></td>
