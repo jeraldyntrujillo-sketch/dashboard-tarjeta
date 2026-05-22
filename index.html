@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Tarjeta — Propuesta de Evolución</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:        #0B1F3A;
+    --navy-mid:    #163260;
+    --blue:        #1A5CA0;
+    --blue-light:  #E8F1FB;
+    --accent:      #D4500E;
+    --accent-light:#FDF1EB;
+    --teal:        #0B7A5C;
+    --teal-light:  #E3F4EE;
+    --amber:       #A86208;
+    --amber-light: #FDF3E2;
+    --ink:         #1A1A1E;
+    --ink-mid:     #48484F;
+    --ink-soft:    #78788A;
+    --border:      #E0E0E8;
+    --bg:          #F5F5F8;
+    --white:       #FFFFFF;
+    --serif:       'Playfair Display', Georgia, serif;
+    --sans:        'Outfit', system-ui, sans-serif;
+    --mono:        'JetBrains Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.6; font-size: 15px; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--navy); display: flex; align-items: center;
+    justify-content: space-between; padding: 0 48px; height: 54px;
+  }
+  .nav-brand { font-family: var(--serif); color: #fff; font-size: 15px; letter-spacing: .02em; }
+  .nav-links { display: flex; gap: 30px; }
+  .nav-links a { color: rgba(255,255,255,.45); text-decoration: none; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; transition: color .2s; }
+  .nav-links a:hover { color: #fff; }
+
+  /* PAGE */
+  .page { max-width: 980px; margin: 0 auto; padding: 0 48px; }
+
+  /* COVER */
+  #cover { background: var(--navy); min-height: 100vh; display: flex; align-items: center; padding-top: 54px; }
+  #cover .page { padding-top: 72px; padding-bottom: 80px; }
+  .cover-eyebrow { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #E8A06A; font-weight: 600; margin-bottom: 22px; }
+  .cover-rule { width: 52px; height: 3px; background: var(--accent); border-radius: 2px; margin-bottom: 28px; }
+  .cover-title { font-family: var(--serif); font-size: clamp(40px, 5.5vw, 62px); color: #fff; line-height: 1.08; margin-bottom: 22px; }
+  .cover-title em { color: #7FB3E8; font-style: italic; }
+  .cover-sub { font-size: 17px; color: rgba(255,255,255,.5); max-width: 540px; line-height: 1.7; margin-bottom: 44px; font-weight: 300; }
+  .cover-pills { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 56px; }
+  .cover-pill { font-size: 12px; color: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.15); border-radius: 20px; padding: 4px 14px; font-weight: 400; }
+  .cover-index { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,.08); border-radius: 10px; overflow: hidden; }
+  .ci { background: rgba(255,255,255,.04); padding: 20px 22px; }
+  .ci-n { font-family: var(--serif); font-size: 26px; color: rgba(255,255,255,.12); line-height: 1; margin-bottom: 8px; }
+  .ci-l { font-size: 12px; color: rgba(255,255,255,.45); line-height: 1.45; font-weight: 300; }
+
+  /* SECTIONS */
+  section { padding: 88px 0 0; }
+  .section-tag { display: inline-flex; align-items: center; gap: 10px; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--blue); font-weight: 600; margin-bottom: 16px; }
+  .section-tag::before { content: ''; display: block; width: 22px; height: 2px; background: var(--blue); border-radius: 1px; }
+  h2 { font-family: var(--serif); font-size: clamp(28px, 3.8vw, 40px); color: var(--navy); line-height: 1.15; margin-bottom: 14px; }
+  h3 { font-size: 17px; font-weight: 600; color: var(--navy); margin-bottom: 12px; }
+  .lead { font-size: 16px; color: var(--ink-mid); line-height: 1.72; max-width: 700px; margin-bottom: 40px; font-weight: 300; }
+
+  /* CARDS */
+  .card { background: var(--white); border-radius: 12px; border: 1px solid var(--border); padding: 26px 30px; }
+
+  /* OPPORTUNITY CARDS */
+  .opp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 40px; }
+  .opp-card { background: var(--white); border-radius: 11px; border: 1px solid var(--border); padding: 22px 24px; position: relative; overflow: hidden; }
+  .opp-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .opp-card.blue::before { background: var(--blue); }
+  .opp-card.teal::before { background: var(--teal); }
+  .opp-card.amber::before { background: var(--amber); }
+  .opp-card.accent::before { background: var(--accent); }
+  .opp-num { font-family: var(--serif); font-size: 36px; color: var(--border); line-height: 1; margin-bottom: 10px; }
+  .opp-card h4 { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 7px; }
+  .opp-card p { font-size: 13px; color: var(--ink-mid); line-height: 1.58; }
+
+  /* FUENTES */
+  .fuentes-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 40px; }
+  .fuente-card { background: var(--white); border-radius: 10px; border: 1px solid var(--border); padding: 20px; }
+  .fuente-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 12px; }
+  .fuente-card h4 { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+  .fuente-card .fuente-tag { font-size: 10px; font-family: var(--mono); color: var(--ink-soft); background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; display: inline-block; margin-bottom: 10px; }
+  .fuente-list { list-style: none; }
+  .fuente-list li { font-size: 12px; color: var(--ink-mid); padding: 4px 0; border-bottom: 1px solid var(--bg); display: flex; align-items: flex-start; gap: 7px; line-height: 1.4; }
+  .fuente-list li:last-child { border-bottom: none; }
+  .fuente-list li::before { content: '·'; color: var(--ink-soft); flex-shrink: 0; margin-top: 1px; }
+
+  /* VISTAS */
+  .vistas-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 40px; }
+  .vista-card { background: var(--white); border-radius: 11px; border: 1px solid var(--border); overflow: hidden; }
+  .vista-header { padding: 18px 20px; border-bottom: 1px solid var(--border); }
+  .vista-num { font-size: 10px; font-weight: 600; color: var(--ink-soft); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
+  .vista-title { font-size: 15px; font-weight: 600; color: var(--navy); }
+  .vista-audience { font-size: 11px; color: var(--blue); margin-top: 4px; font-weight: 500; }
+  .vista-body { padding: 16px 20px; }
+  .vista-item { display: flex; gap: 9px; padding: 7px 0; border-bottom: 1px solid var(--bg); font-size: 12px; color: var(--ink-mid); line-height: 1.45; align-items: flex-start; }
+  .vista-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .vista-item-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+  .vista-item strong { display: block; font-size: 12px; font-weight: 500; color: var(--ink); }
+  .src { display: inline-block; font-size: 10px; font-family: var(--mono); background: var(--bg); color: var(--ink-soft); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; margin-left: 5px; }
+
+  /* KPI TABLE */
+  .kpi-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 40px; }
+  .kpi-table thead tr { background: var(--navy); }
+  .kpi-table thead th { padding: 13px 16px; text-align: left; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; font-weight: 500; color: rgba(255,255,255,.6); }
+  .kpi-table thead th:first-child { border-radius: 8px 0 0 0; }
+  .kpi-table thead th:last-child { border-radius: 0 8px 0 0; }
+  .kpi-table tbody tr { border-bottom: 1px solid var(--border); }
+  .kpi-table tbody tr:last-child { border-bottom: none; }
+  .kpi-table tbody td { padding: 13px 16px; vertical-align: top; color: var(--ink-mid); line-height: 1.5; }
+  .kpi-table tbody td:first-child { font-weight: 500; color: var(--ink); }
+  .kpi-table tbody tr:nth-child(even) td { background: #FAFAFA; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .badge-p { background: var(--navy); color: #fff; }
+  .badge-s { background: var(--bg); color: var(--ink-soft); border: 1px solid var(--border); }
+  .semaforo { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; }
+  .dot-g { width: 7px; height: 7px; border-radius: 50%; background: #2E9E6A; }
+  .dot-a { width: 7px; height: 7px; border-radius: 50%; background: #D4930E; }
+  .dot-r { width: 7px; height: 7px; border-radius: 50%; background: #C03030; }
+
+  /* ROADMAP */
+  .roadmap { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 40px; }
+  .rm { padding: 26px 24px; background: var(--white); }
+  .rm:not(:last-child) { border-right: 1px solid var(--border); }
+  .rm-tag { font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 14px; }
+  .rm.p1 .rm-tag { color: var(--accent); }
+  .rm.p2 .rm-tag { color: var(--blue); }
+  .rm.p3 .rm-tag { color: var(--teal); }
+  .rm h4 { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+  .rm .rm-sub { font-size: 12px; color: var(--ink-soft); margin-bottom: 16px; font-weight: 300; }
+  .rm-item { display: flex; gap: 9px; font-size: 12px; color: var(--ink-mid); margin-bottom: 9px; line-height: 1.5; align-items: flex-start; }
+  .rm-item::before { content: '→'; color: var(--ink-soft); font-size: 11px; flex-shrink: 0; margin-top: 2px; }
+
+  /* CALLOUT */
+  .callout { border-radius: 10px; padding: 18px 22px; margin-bottom: 28px; display: flex; gap: 14px; align-items: flex-start; }
+  .callout.blue { background: var(--blue-light); border: 1px solid #B5D0F2; }
+  .callout.amber { background: var(--amber-light); border: 1px solid #F0C070; }
+  .callout-icon { font-size: 18px; flex-shrink: 0; }
+  .callout p { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+  .callout strong { color: var(--ink); }
+
+  /* AUDIENCE BOX */
+  .audience-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 40px; }
+  .aud-card { background: var(--white); border-radius: 10px; border: 1px solid var(--border); padding: 22px 24px; }
+  .aud-card h4 { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .aud-q { font-size: 13px; color: var(--ink-mid); padding: 7px 0; border-bottom: 1px solid var(--bg); display: flex; gap: 8px; line-height: 1.5; }
+  .aud-q:last-child { border-bottom: none; padding-bottom: 0; }
+  .aud-q::before { content: '?'; font-weight: 600; color: var(--blue); flex-shrink: 0; font-size: 12px; margin-top: 2px; }
+
+  /* FOOTER */
+  footer { background: var(--navy); color: rgba(255,255,255,.38); font-size: 12px; text-align: center; padding: 30px 48px; margin-top: 88px; }
+  footer strong { color: rgba(255,255,255,.65); }
+
+  @media (max-width: 700px) {
+    .page { padding: 0 20px; }
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .cover-index, .opp-grid, .fuentes-grid, .vistas-grid, .roadmap, .audience-row { grid-template-columns: 1fr; }
+    .rm:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">Dashboard Tarjeta</span>
+  <div class="nav-links">
+    <a href="#oportunidades">Oportunidades</a>
+    <a href="#fuentes">Fuentes</a>
+    <a href="#vistas">Vistas</a>
+    <a href="#kpis">KPIs</a>
+    <a href="#roadmap">Roadmap</a>
+  </div>
+</nav>
+
+<!-- COVER -->
+<section id="cover">
+  <div class="page">
+    <p class="cover-eyebrow">Propuesta de evolución · Mayo 2026</p>
+    <div class="cover-rule"></div>
+    <h1 class="cover-title">Una nueva visión<br>para el <em>Dashboard Tarjeta</em></h1>
+    <p class="cover-sub">Cómo aprovechar las cuatro fuentes de datos disponibles para darle a cada Country Manager visibilidad real sobre su operación: gasto, comportamiento, alertas y tendencias.</p>
+    <div class="cover-pills">
+      <span class="cover-pill">🇨🇱 Chile</span>
+      <span class="cover-pill">🇨🇴 Colombia</span>
+      <span class="cover-pill">🇵🇪 Perú</span>
+      <span class="cover-pill">🇺🇸 Estados Unidos</span>
+      <span class="cover-pill">Audiencia: Country Manager</span>
+      <span class="cover-pill">4 fuentes de datos</span>
+    </div>
+    <div class="cover-index">
+      <div class="ci"><div class="ci-n">01</div><div class="ci-l">Oportunidades de mejora</div></div>
+      <div class="ci"><div class="ci-n">02</div><div class="ci-l">Las cuatro fuentes de datos</div></div>
+      <div class="ci"><div class="ci-n">03</div><div class="ci-l">Vistas propuestas</div></div>
+      <div class="ci"><div class="ci-n">04</div><div class="ci-l">KPIs y roadmap</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIENCIA -->
+<section id="audiencia">
+  <div class="page">
+    <p class="section-tag">Audiencia</p>
+    <h2>¿Qué necesita saber un Country Manager?</h2>
+    <p class="lead">Antes de definir qué mostrar, partimos de las preguntas que un Country Manager necesita responder cada semana para gestionar su operación de tarjetas.</p>
+
+    <div class="audience-row">
+      <div class="aud-card">
+        <h4>🗺️ Visión por país</h4>
+        <div class="aud-q">¿Cuántas tarjetas activas tengo hoy y cómo cambia esa cifra semana a semana?</div>
+        <div class="aud-q">¿Cuánto están gastando mis tarjetahabientes y en qué comercios?</div>
+        <div class="aud-q">¿Cómo se compara mi país frente al resto de la región?</div>
+        <div class="aud-q">¿Cuántas tarjetas están pendientes de entregar o en proceso de emisión?</div>
+      </div>
+      <div class="aud-card">
+        <h4>⚠️ Alertas y operación</h4>
+        <div class="aud-q">¿Hay transacciones siendo rechazadas a un ritmo inusual? ¿Por qué?</div>
+        <div class="aud-q">¿Cuántas tarjetas se bloquearon esta semana y cuál fue la causa?</div>
+        <div class="aud-q">¿Existe algún tarjetahabiente con comportamiento atípico que requiera acción?</div>
+        <div class="aud-q">¿Cuántos reversos se están procesando y de qué tipo son?</div>
+      </div>
+    </div>
+
+    <div class="callout blue">
+      <span class="callout-icon">💡</span>
+      <p><strong>Principio de diseño:</strong> Cada visualización propuesta responde directamente una de estas preguntas. Si una métrica no responde a ninguna de ellas, no ocupa espacio en el dashboard principal — va a una vista de detalle.</p>
+    </div>
+  </div>
+</section>
+
+<!-- OPORTUNIDADES -->
+<section id="oportunidades">
+  <div class="page">
+    <p class="section-tag">01 · Oportunidades</p>
+    <h2>Lo que podemos ganar con esta evolución</h2>
+    <p class="lead">El dashboard actual tiene una base sólida de datos. Con ajustes en la forma de presentarlos, podemos transformarlo en una herramienta de toma de decisiones más rápida y más clara para los equipos de país.</p>
+
+    <div class="opp-grid">
+      <div class="opp-card blue">
+        <div class="opp-num">01</div>
+        <h4>Diagnóstico en 30 segundos</h4>
+        <p>Una franja de KPIs con semáforo al tope permite entender el estado de la operación al entrar al dashboard, sin necesidad de interpretar múltiples gráficos simultáneamente.</p>
+      </div>
+      <div class="opp-card teal">
+        <div class="opp-num">02</div>
+        <h4>Alertas operativas visibles</h4>
+        <p>La tasa de rechazo, los bloqueos recientes y los reversos por tipo pueden tener un espacio destacado que hoy no tienen, permitiendo reaccionar antes de que escalen.</p>
+      </div>
+      <div class="opp-card amber">
+        <div class="opp-num">03</div>
+        <h4>Visión completa del tarjetahabiente</h4>
+        <p>Hoy no existe una vista por persona. Poder ver el historial de transacciones, eventos de la tarjeta y notificaciones de un tarjetahabiente en un solo lugar reduce el tiempo de investigación de casos.</p>
+      </div>
+      <div class="opp-card accent">
+        <div class="opp-num">04</div>
+        <h4>Lenguaje de negocio</h4>
+        <p>Reemplazar códigos técnicos como <code style="font-size:11px;background:#F2EDE9;padding:1px 5px;border-radius:3px;color:#8B3A10">SUCCESSFUL_FIRST_DELIVERY</code> por etiquetas como "Entregada exitosamente" reduce la curva de lectura para cualquier usuario de negocio.</p>
+      </div>
+      <div class="opp-card blue">
+        <div class="opp-num">05</div>
+        <h4>Comparación entre comercios más clara</h4>
+        <p>Cambiar el gráfico de torta por barras horizontales ordenadas por monto hace que la comparación entre comercios sea inmediata, especialmente cuando hay muchas categorías similares.</p>
+      </div>
+      <div class="opp-card teal">
+        <div class="opp-num">06</div>
+        <h4>Tendencias separadas y legibles</h4>
+        <p>Mostrar transacciones aprobadas y rechazadas como líneas independientes en el tiempo permite ver si la tasa de rechazo está subiendo aunque el volumen total también crezca.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUENTES -->
+<section id="fuentes">
+  <div class="page">
+    <p class="section-tag">02 · Fuentes de datos</p>
+    <h2>Cuatro fuentes, cada una con su rol</h2>
+    <p class="lead">Las fuentes son independientes entre sí. Cada una tiene un propósito distinto en el dashboard y alimenta visualizaciones específicas sin necesidad de cruzarlas técnicamente.</p>
+
+    <div class="fuentes-grid">
+      <div class="fuente-card">
+        <div class="fuente-icon" style="background:#E8F1FB">💳</div>
+        <h4>Información de tarjetas</h4>
+        <span class="fuente-tag">card_info</span>
+        <ul class="fuente-list">
+          <li>Estado actual (activa, bloqueada, deshabilitada)</li>
+          <li>Titular y país asignado</li>
+          <li>Tipo: física o virtual</li>
+          <li>Estado de entrega física</li>
+          <li>Límite mensual asignado</li>
+        </ul>
+      </div>
+      <div class="fuente-card">
+        <div class="fuente-icon" style="background:#FDF1EB">🔔</div>
+        <h4>Eventos de tarjeta</h4>
+        <span class="fuente-tag">card_events</span>
+        <ul class="fuente-list">
+          <li>Bloqueos y desbloqueos con fecha</li>
+          <li>Deshabilitaciones</li>
+          <li>Cambios de límite</li>
+          <li>Motivo del evento</li>
+          <li>Usuario o sistema que lo generó</li>
+        </ul>
+      </div>
+      <div class="fuente-card">
+        <div class="fuente-icon" style="background:#E3F4EE">🧾</div>
+        <h4>Transacciones</h4>
+        <span class="fuente-tag">transactions</span>
+        <ul class="fuente-list">
+          <li>Monto y fecha de cada transacción</li>
+          <li>Comercio y categoría</li>
+          <li>Estado: aprobada o revertida</li>
+          <li>Tipo de reverso</li>
+          <li>País y moneda</li>
+        </ul>
+      </div>
+      <div class="fuente-card">
+        <div class="fuente-icon" style="background:#FDF3E2">📩</div>
+        <h4>Notificaciones</h4>
+        <span class="fuente-tag">notifications</span>
+        <ul class="fuente-list">
+          <li>Transacciones rechazadas</li>
+          <li>Motivo de cada rechazo</li>
+          <li>Alertas de límite</li>
+          <li>Actividad inusual</li>
+          <li>Fecha y tarjeta asociada</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout amber">
+      <span class="callout-icon">📌</span>
+      <p><strong>Nota de implementación:</strong> Dado que las fuentes son independientes, cada panel del dashboard se construye sobre una sola fuente. Esto simplifica el modelo de datos en Tableau y hace que los filtros de país y período apliquen de forma consistente en cada vista por separado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VISTAS -->
+<section id="vistas">
+  <div class="page">
+    <p class="section-tag">03 · Vistas propuestas</p>
+    <h2>Tres vistas para tres momentos de uso</h2>
+    <p class="lead">El dashboard se organiza en vistas complementarias. Un Country Manager puede empezar por el resumen general, profundizar en alertas operativas y, si necesita investigar un caso, ir directo al tarjetahabiente.</p>
+
+    <div class="vistas-grid">
+      <div class="vista-card">
+        <div class="vista-header">
+          <p class="vista-num">Vista 1</p>
+          <p class="vista-title">Resumen ejecutivo</p>
+          <p class="vista-audience">Country Manager · revisión diaria</p>
+        </div>
+        <div class="vista-body">
+          <div class="vista-item">
+            <span class="vista-item-icon">📊</span>
+            <div><strong>6 KPIs con semáforo<span class="src">card_info</span></strong>Total tarjetas, activas, bloqueadas, gasto 30d, tasa rechazo, tasa reverso.</div>
+          </div>
+          <div class="vista-item">
+            <span class="vista-item-icon">🌎</span>
+            <div><strong>Tarjetas por país<span class="src">card_info</span></strong>Barras horizontales con banderas. Filtrable por tipo (física/virtual).</div>
+          </div>
+          <div class="vista-item">
+            <span class="vista-item-icon">🍩</span>
+            <div><strong>Estado de tarjetas<span class="src">card_info</span></strong>Donut: activas / bloqueadas / deshabilitadas con cifra central.</div>
+          </div>
+          <div class="vista-item">
+            <span class="vista-item-icon">📈</span>
+            <div><strong>Volumen diario (30d)<span class="src">transactions</span></strong>Línea de aprobadas + línea punteada de rechazadas.</div>
+          </div>
+          <div class="vista-item">
+            <span class="vista-item-icon">🏪</span>
+            <div><strong>Top comercios por gasto<span class="src">transactions</span></strong>Barras horizontales ordenadas por monto.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="vista-card">
+        <div class="vista-header">
+          <p class="vista-num">Vista 2</p>
+          <p class="vista-title">Operaciones y alertas</p>
+          <p class="vista-audience">Country Manager · seguimiento semanal</p>
+        </div>
+        <div class="vista-body">
+          <div class="vista-item">
+            <span class="vista-item-icon">⚠️</span>
+            <div><strong>Razones de rechazo<span class="src">notifications</span></strong>Barras horizontales con conteo por motivo en español.</div>
+          </div>
+          <div class="vista-item">
+            <span class="vista-item-icon">↩️</span>
+            <div><strong>Reversos por tipo<span class="src">transactions</span></strong>Duplicado, disputa, fraude, error de comercio, otro.</div>
+          </div>
+          <div class="vista-item">
+            <span class="vista-item-icon">🔔</span>
+            <div><strong>Eventos recientes<span class="src">card_events</span></strong>Feed cronológico: bloqueos, desbloqueos, deshabilitaciones.</div>
+          </div>
+          <div class="vista-item">
+            <span class="vista-item-icon">📦</span>
+            <div><strong>Estado de entrega física<span class="src">card_info</span></strong>Entregada, en impresión, fallida — con etiquetas de negocio.</div>
+          </div>
+          <div class="vista-item">
+            <span class="vista-item-icon">📅</span>
+            <div><strong>Tarjetas activas por mes (3m)<span class="src">card_info</span></strong>Barras agrupadas por país y tipo de tarjeta.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="vista-card">
+        <div class="vista-header">
+          <p class="vista-num">Vista 3</p>
+          <p class="vista-title">Detalle por tarjetahabiente</p>
+          <p class="vista-audience">Country Manager · investigación de casos</p>
+        </div>
+        <div class="vista-body">
+          <div class="vista-item">
+            <span class="vista-item-icon">👤</span>
+            <div><strong>Perfil del tarjetahabiente<span class="src">card_info</span></strong>Nombre, cargo, país, número, estado y tipo de tarjeta.</div>
+          </div>
+          <div class="vista-item">
+            <span class="vista-item-icon">💰</span>
+            <div><strong>KPIs individuales<span class="src">transactions</span></strong>Gasto este mes, mes anterior, YTD y barra de utilización del límite.</div>
+          </div>
+          <div class="vista-item">
+            <span class="vista-item-icon">🧾</span>
+            <div><strong>Historial de transacciones<span class="src">transactions</span></strong>Tabla con fecha, comercio, categoría, estado y monto.</div>
+          </div>
+          <div class="vista-item">
+            <span class="vista-item-icon">📋</span>
+            <div><strong>Línea de tiempo de eventos<span class="src">card_events</span></strong>Bloqueos, cambios de límite y desbloqueos en orden cronológico.</div>
+          </div>
+          <div class="vista-item">
+            <span class="vista-item-icon">📩</span>
+            <div><strong>Notificaciones individuales<span class="src">notifications</span></strong>Rechazos y alertas asociadas a esa tarjeta.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KPIs -->
+<section id="kpis">
+  <div class="page">
+    <p class="section-tag">04 · KPIs propuestos</p>
+    <h2>Qué medir y cómo leerlo</h2>
+    <p class="lead">Los KPIs primarios van en la franja superior del resumen ejecutivo con semáforo de color. Los secundarios aparecen en paneles de detalle o en la vista de operaciones.</p>
+
+    <table class="kpi-table">
+      <thead>
+        <tr>
+          <th style="width:200px">KPI</th>
+          <th style="width:110px">Fuente</th>
+          <th>Qué responde</th>
+          <th style="width:90px">Semáforo</th>
+          <th style="width:90px">Prioridad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Tarjetas activas / total</td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">card_info</span></td>
+          <td>¿Qué porcentaje de mi portafolio está operativo hoy?</td>
+          <td><span class="semaforo"><span class="dot-g"></span>&gt;75%</span></td>
+          <td><span class="badge badge-p">Primario</span></td>
+        </tr>
+        <tr>
+          <td>Gasto total (30 días)</td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">transactions</span></td>
+          <td>¿Cuánto están moviendo mis tarjetas este mes?</td>
+          <td>vs. mes anterior</td>
+          <td><span class="badge badge-p">Primario</span></td>
+        </tr>
+        <tr>
+          <td>Tasa de rechazo</td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">notifications</span></td>
+          <td>¿Hay transacciones fallando a un ritmo que debo atender?</td>
+          <td><span class="semaforo"><span class="dot-g"></span>&lt;3% <span class="dot-a"></span>3–6% <span class="dot-r"></span>&gt;6%</span></td>
+          <td><span class="badge badge-p">Primario</span></td>
+        </tr>
+        <tr>
+          <td>Tarjetas bloqueadas</td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">card_events</span></td>
+          <td>¿Cuántas tarjetas están inoperativas y por qué?</td>
+          <td><span class="semaforo"><span class="dot-a"></span>variación semanal</span></td>
+          <td><span class="badge badge-p">Primario</span></td>
+        </tr>
+        <tr>
+          <td>Tasa de reverso</td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">transactions</span></td>
+          <td>¿Hay problemas de fraude o errores de comercio relevantes?</td>
+          <td><span class="semaforo"><span class="dot-g"></span>&lt;2% <span class="dot-a"></span>2–4% <span class="dot-r"></span>&gt;4%</span></td>
+          <td><span class="badge badge-p">Primario</span></td>
+        </tr>
+        <tr>
+          <td>Clientes activos (90 días)</td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">transactions</span></td>
+          <td>¿Cuántos tarjetahabientes han usado su tarjeta en los últimos 3 meses?</td>
+          <td>vs. período anterior</td>
+          <td><span class="badge badge-p">Primario</span></td>
+        </tr>
+        <tr>
+          <td>Top comercios por gasto</td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">transactions</span></td>
+          <td>¿Dónde se concentra el gasto de mi país?</td>
+          <td>—</td>
+          <td><span class="badge badge-s">Secundario</span></td>
+        </tr>
+        <tr>
+          <td>Estado de entrega física</td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">card_info</span></td>
+          <td>¿Cuántas tarjetas están pendientes de llegar al cliente?</td>
+          <td>—</td>
+          <td><span class="badge badge-s">Secundario</span></td>
+        </tr>
+        <tr>
+          <td>Razones de rechazo</td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">notifications</span></td>
+          <td>¿Por qué se están rechazando las transacciones?</td>
+          <td>—</td>
+          <td><span class="badge badge-s">Secundario</span></td>
+        </tr>
+        <tr>
+          <td>Física vs. virtual</td>
+          <td><span style="font-size:11px;font-family:var(--mono);color:var(--ink-soft)">card_info</span></td>
+          <td>¿Cómo está distribuido mi portafolio por tipo de tarjeta?</td>
+          <td>—</td>
+          <td><span class="badge badge-s">Secundario</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="page">
+    <p class="section-tag">05 · Roadmap</p>
+    <h2>De aquí a la versión final en tres fases</h2>
+    <p class="lead">Una evolución gradual que permite incorporar feedback de los Country Managers en cada etapa antes de construir la siguiente.</p>
+
+    <div class="roadmap">
+      <div class="rm p1">
+        <p class="rm-tag">Fase 1 · 2 semanas</p>
+        <h4>Legibilidad y claridad</h4>
+        <p class="rm-sub">Cambios sobre el dashboard actual</p>
+        <div class="rm-item">Migrar a tema claro con tipografía de mayor contraste</div>
+        <div class="rm-item">Traducir etiquetas técnicas a español de negocio</div>
+        <div class="rm-item">Reemplazar torta de comercios por barras horizontales</div>
+        <div class="rm-item">Agregar semáforo a tasa de rechazo y bloqueos</div>
+        <div class="rm-item">Separar líneas de aprobadas vs. rechazadas</div>
+      </div>
+      <div class="rm p2">
+        <p class="rm-tag">Fase 2 · 3–4 semanas</p>
+        <h4>Nueva arquitectura</h4>
+        <p class="rm-sub">Reorganización de vistas y KPIs</p>
+        <div class="rm-item">Franja de 6 KPIs primarios con semáforo al tope</div>
+        <div class="rm-item">Vista de operaciones y alertas separada</div>
+        <div class="rm-item">Filtros globales persistentes por país y período</div>
+        <div class="rm-item">Revisión de KPIs con Country Managers de cada país</div>
+        <div class="rm-item">Mapeo de campos en cada fuente de datos</div>
+      </div>
+      <div class="rm p3">
+        <p class="rm-tag">Fase 3 · 4–6 semanas</p>
+        <h4>Drill-down y seguimiento</h4>
+        <p class="rm-sub">Capacidades de investigación individual</p>
+        <div class="rm-item">Vista de detalle por tarjetahabiente</div>
+        <div class="rm-item">Historial de transacciones con eventos y notificaciones</div>
+        <div class="rm-item">Barra de utilización del límite individual</div>
+        <div class="rm-item">Exportación de reporte por tarjetahabiente o país</div>
+        <div class="rm-item">Sesión de validación final con usuarios clave</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:16px">Próximos pasos para validar</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="font-size:13px;color:var(--ink-mid);line-height:1.55;padding:14px 16px;background:var(--bg);border-radius:8px">
+          <strong style="display:block;color:var(--navy);margin-bottom:5px">1. Confirmar KPIs primarios con Country Managers</strong>
+          ¿Son estos los seis números que necesitan al empezar el día? ¿Falta alguno crítico para su operación local?
+        </div>
+        <div style="font-size:13px;color:var(--ink-mid);line-height:1.55;padding:14px 16px;background:var(--bg);border-radius:8px">
+          <strong style="display:block;color:var(--navy);margin-bottom:5px">2. Revisar los umbrales del semáforo</strong>
+          Los rangos propuestos para rechazo (&lt;3% / 3–6% / &gt;6%) y reverso (&lt;2% / 2–4% / &gt;4%) deben ajustarse a la realidad histórica de cada país.
+        </div>
+        <div style="font-size:13px;color:var(--ink-mid);line-height:1.55;padding:14px 16px;background:var(--bg);border-radius:8px">
+          <strong style="display:block;color:var(--navy);margin-bottom:5px">3. Validar los campos de notificaciones</strong>
+          ¿Qué códigos de motivo existen realmente en la fuente? Los nombres de rechazo mostrados en el prototipo son supuestos.
+        </div>
+        <div style="font-size:13px;color:var(--ink-mid);line-height:1.55;padding:14px 16px;background:var(--bg);border-radius:8px">
+          <strong style="display:block;color:var(--navy);margin-bottom:5px">4. Definir cadencia de actualización</strong>
+          ¿El dashboard debe ser en tiempo real, horario o con corte diario? Afecta el diseño técnico antes de construir en Tableau.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>Dashboard Tarjeta — Propuesta de Evolución</strong> &nbsp;·&nbsp; Mayo 2026 &nbsp;·&nbsp; Documento de trabajo para revisión con Country Managers
+</footer>
+
+</body>
+</html>
